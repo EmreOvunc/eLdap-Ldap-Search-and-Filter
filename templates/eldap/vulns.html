@@ -1,0 +1,28 @@
+<html>
+{% extends 'eldap/main.html' %}
+
+{% block content %}
+
+<div class="row">
+<div class="column">
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="cursor: pointer; width: 20%; color: cornflowerblue"><b>Connect</b></button>
+
+        <div style="color: darkslateblue">* Anonymous searching if the username and password are empty!</div>
+    </form>
+</div>
+
+<div class="column">
+    <div class="post">
+            <b><u>Result:</u></b>
+            &nbsp;<div id="a">{{ result }}</div>
+    </div>
+</div>
+    <p></p>
+    <div style="color: darkgrey"> Developed by @EmreOvunc</div>
+</div>
+
+{% endblock %}
+</html>

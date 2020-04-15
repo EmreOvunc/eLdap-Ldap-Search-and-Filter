@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+    <head>
+        <title>eLdap | Ldap Filter & Search </title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+    {% load static %}
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+
+    </head>
+<style>
+.page-header {
+    margin-top: 0;
+    padding: 10px 20px 20px 40px;
+}
+</style>
+    <body>
+        <div class="page-header">
+            <h1><a href="/"><u>eLdap</u> | Ldap Filter & Search </a></h1>
+        </div>
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
