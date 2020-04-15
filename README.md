@@ -1,5 +1,5 @@
 # eLdap-Ldap-Search-and-Filter
-eLdap is a tool that helps userssearching and filtering queries in Ldap environment.
+eLdap is a tool that helps users searching and filtering queries in Ldap environment.
 
 + Ldap injection will be added.
 + Ldap vulnerabilities will be added.
