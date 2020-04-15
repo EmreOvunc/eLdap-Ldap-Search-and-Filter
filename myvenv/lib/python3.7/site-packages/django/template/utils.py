@@ -1,5 +1,5 @@
 import functools
-from collections import Counter
+from collections import Counter, OrderedDict
 from pathlib import Path
 
 from django.apps import apps
@@ -27,7 +27,7 @@ class EngineHandler:
         if self._templates is None:
             self._templates = settings.TEMPLATES
 
-        templates = {}
+        templates = OrderedDict()
         backend_names = []
         for tpl in self._templates:
             try:

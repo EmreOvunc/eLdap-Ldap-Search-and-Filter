@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT, BaseCache
 from django.db import DatabaseError, connections, models, router, transaction
 from django.utils import timezone
+from django.utils.inspect import func_supports_parameter
 
 
 class Options:
@@ -84,7 +85,10 @@ class DatabaseCache(BaseDatabaseCache):
         converters = (connection.ops.get_db_converters(expression) + expression.get_db_converters(connection))
         for key, value, expires in rows:
             for converter in converters:
-                expires = converter(expires, expression, connection)
+                if func_supports_parameter(converter, 'context'):  # RemovedInDjango30Warning
+                    expires = converter(expires, expression, connection, {})
+                else:
+                    expires = converter(expires, expression, connection)
             if expires < timezone.now():
                 expired_keys.append(key)
             else:
@@ -156,7 +160,10 @@ class DatabaseCache(BaseDatabaseCache):
                         expression = models.Expression(output_field=models.DateTimeField())
                         for converter in (connection.ops.get_db_converters(expression) +
                                           expression.get_db_converters(connection)):
-                            current_expires = converter(current_expires, expression, connection)
+                            if func_supports_parameter(converter, 'context'):  # RemovedInDjango30Warning
+                                current_expires = converter(current_expires, expression, connection, {})
+                            else:
+                                current_expires = converter(current_expires, expression, connection)
 
                     exp = connection.ops.adapt_datetimefield_value(exp)
                     if result and mode == 'touch':

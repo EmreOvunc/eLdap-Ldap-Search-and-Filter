@@ -1,5 +1,6 @@
 """SMTP email backend class."""
 import smtplib
+import socket
 import ssl
 import threading
 
@@ -68,7 +69,7 @@ class EmailBackend(BaseEmailBackend):
             if self.username and self.password:
                 self.connection.login(self.username, self.password)
             return True
-        except OSError:
+        except (smtplib.SMTPException, socket.error):
             if not self.fail_silently:
                 raise
 

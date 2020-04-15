@@ -160,7 +160,7 @@ class Engine:
         if isinstance(context, Context):
             return t.render(context)
         else:
-            return t.render(Context(context, autoescape=self.autoescape))
+            return t.render(Context(context))
 
     def select_template(self, template_name_list):
         """

@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/emreovunc/PycharmProjects/eldap/myvenv"
+VIRTUAL_ENV="/Users/emreovunc/PycharmProjects/eLdap-Ldap-Search-and-Filter/myvenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

@@ -50,7 +50,7 @@ if os.name == 'nt':
                 self.close_called = True
                 try:
                     self.file.close()
-                except OSError:
+                except (OSError, IOError):
                     pass
                 try:
                     self.unlink(self.name)

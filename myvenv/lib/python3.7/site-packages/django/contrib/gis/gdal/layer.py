@@ -11,7 +11,7 @@ from django.contrib.gis.gdal.prototypes import (
     ds as capi, geom as geom_api, srs as srs_api,
 )
 from django.contrib.gis.gdal.srs import SpatialReference
-from django.utils.encoding import force_bytes, force_str
+from django.utils.encoding import force_bytes, force_text
 
 
 # For more information, see the OGR C API source code:
@@ -101,7 +101,7 @@ class Layer(GDALBase):
     def name(self):
         "Return the name of this layer in the Data Source."
         name = capi.get_fd_name(self._ldefn)
-        return force_str(name, self._ds.encoding, strings_only=True)
+        return force_text(name, self._ds.encoding, strings_only=True)
 
     @property
     def num_feat(self, force=1):
@@ -133,10 +133,9 @@ class Layer(GDALBase):
         Return a list of string names corresponding to each of the Fields
         available in this Layer.
         """
-        return [force_str(
-            capi.get_field_name(capi.get_field_defn(self._ldefn, i)),
-            self._ds.encoding, strings_only=True,
-        ) for i in range(self.num_fields)]
+        return [force_text(capi.get_field_name(capi.get_field_defn(self._ldefn, i)),
+                           self._ds.encoding, strings_only=True)
+                for i in range(self.num_fields)]
 
     @property
     def field_types(self):

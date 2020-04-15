@@ -4,6 +4,7 @@ import functools
 import hashlib
 import importlib
 import warnings
+from collections import OrderedDict
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -235,7 +236,7 @@ class PBKDF2PasswordHasher(BasePasswordHasher):
     safely but you must rename the algorithm if you change SHA256.
     """
     algorithm = "pbkdf2_sha256"
-    iterations = 180000
+    iterations = 150000
     digest = hashlib.sha256
 
     def encode(self, password, salt, iterations=None):
@@ -255,12 +256,12 @@ class PBKDF2PasswordHasher(BasePasswordHasher):
     def safe_summary(self, encoded):
         algorithm, iterations, salt, hash = encoded.split('$', 3)
         assert algorithm == self.algorithm
-        return {
-            _('algorithm'): algorithm,
-            _('iterations'): iterations,
-            _('salt'): mask_hash(salt),
-            _('hash'): mask_hash(hash),
-        }
+        return OrderedDict([
+            (_('algorithm'), algorithm),
+            (_('iterations'), iterations),
+            (_('salt'), mask_hash(salt)),
+            (_('hash'), mask_hash(hash)),
+        ])
 
     def must_update(self, encoded):
         algorithm, iterations, salt, hash = encoded.split('$', 3)
@@ -329,16 +330,16 @@ class Argon2PasswordHasher(BasePasswordHasher):
         (algorithm, variety, version, time_cost, memory_cost, parallelism,
             salt, data) = self._decode(encoded)
         assert algorithm == self.algorithm
-        return {
-            _('algorithm'): algorithm,
-            _('variety'): variety,
-            _('version'): version,
-            _('memory cost'): memory_cost,
-            _('time cost'): time_cost,
-            _('parallelism'): parallelism,
-            _('salt'): mask_hash(salt),
-            _('hash'): mask_hash(data),
-        }
+        return OrderedDict([
+            (_('algorithm'), algorithm),
+            (_('variety'), variety),
+            (_('version'), version),
+            (_('memory cost'), memory_cost),
+            (_('time cost'), time_cost),
+            (_('parallelism'), parallelism),
+            (_('salt'), mask_hash(salt)),
+            (_('hash'), mask_hash(data)),
+        ])
 
     def must_update(self, encoded):
         (algorithm, variety, version, time_cost, memory_cost, parallelism,
@@ -425,12 +426,12 @@ class BCryptSHA256PasswordHasher(BasePasswordHasher):
         algorithm, empty, algostr, work_factor, data = encoded.split('$', 4)
         assert algorithm == self.algorithm
         salt, checksum = data[:22], data[22:]
-        return {
-            _('algorithm'): algorithm,
-            _('work factor'): work_factor,
-            _('salt'): mask_hash(salt),
-            _('checksum'): mask_hash(checksum),
-        }
+        return OrderedDict([
+            (_('algorithm'), algorithm),
+            (_('work factor'), work_factor),
+            (_('salt'), mask_hash(salt)),
+            (_('checksum'), mask_hash(checksum)),
+        ])
 
     def must_update(self, encoded):
         algorithm, empty, algostr, rounds, data = encoded.split('$', 4)
@@ -485,11 +486,11 @@ class SHA1PasswordHasher(BasePasswordHasher):
     def safe_summary(self, encoded):
         algorithm, salt, hash = encoded.split('$', 2)
         assert algorithm == self.algorithm
-        return {
-            _('algorithm'): algorithm,
-            _('salt'): mask_hash(salt, show=2),
-            _('hash'): mask_hash(hash),
-        }
+        return OrderedDict([
+            (_('algorithm'), algorithm),
+            (_('salt'), mask_hash(salt, show=2)),
+            (_('hash'), mask_hash(hash)),
+        ])
 
     def harden_runtime(self, password, encoded):
         pass
@@ -516,11 +517,11 @@ class MD5PasswordHasher(BasePasswordHasher):
     def safe_summary(self, encoded):
         algorithm, salt, hash = encoded.split('$', 2)
         assert algorithm == self.algorithm
-        return {
-            _('algorithm'): algorithm,
-            _('salt'): mask_hash(salt, show=2),
-            _('hash'): mask_hash(hash),
-        }
+        return OrderedDict([
+            (_('algorithm'), algorithm),
+            (_('salt'), mask_hash(salt, show=2)),
+            (_('hash'), mask_hash(hash)),
+        ])
 
     def harden_runtime(self, password, encoded):
         pass
@@ -552,10 +553,10 @@ class UnsaltedSHA1PasswordHasher(BasePasswordHasher):
     def safe_summary(self, encoded):
         assert encoded.startswith('sha1$$')
         hash = encoded[6:]
-        return {
-            _('algorithm'): self.algorithm,
-            _('hash'): mask_hash(hash),
-        }
+        return OrderedDict([
+            (_('algorithm'), self.algorithm),
+            (_('hash'), mask_hash(hash)),
+        ])
 
     def harden_runtime(self, password, encoded):
         pass
@@ -588,10 +589,10 @@ class UnsaltedMD5PasswordHasher(BasePasswordHasher):
         return constant_time_compare(encoded, encoded_2)
 
     def safe_summary(self, encoded):
-        return {
-            _('algorithm'): self.algorithm,
-            _('hash'): mask_hash(encoded, show=3),
-        }
+        return OrderedDict([
+            (_('algorithm'), self.algorithm),
+            (_('hash'), mask_hash(encoded, show=3)),
+        ])
 
     def harden_runtime(self, password, encoded):
         pass
@@ -626,11 +627,11 @@ class CryptPasswordHasher(BasePasswordHasher):
     def safe_summary(self, encoded):
         algorithm, salt, data = encoded.split('$', 2)
         assert algorithm == self.algorithm
-        return {
-            _('algorithm'): algorithm,
-            _('salt'): salt,
-            _('hash'): mask_hash(data, show=3),
-        }
+        return OrderedDict([
+            (_('algorithm'), algorithm),
+            (_('salt'), salt),
+            (_('hash'), mask_hash(data, show=3)),
+        ])
 
     def harden_runtime(self, password, encoded):
         pass

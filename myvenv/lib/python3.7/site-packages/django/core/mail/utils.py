@@ -4,8 +4,6 @@ Email message and email sending related helper functions.
 
 import socket
 
-from django.utils.encoding import punycode
-
 
 # Cache the hostname, but do it lazily: socket.getfqdn() can take a couple of
 # seconds, which slows down the restart of the server.
@@ -15,7 +13,7 @@ class CachedDnsName:
 
     def get_fqdn(self):
         if not hasattr(self, '_fqdn'):
-            self._fqdn = punycode(socket.getfqdn())
+            self._fqdn = socket.getfqdn()
         return self._fqdn
 
 

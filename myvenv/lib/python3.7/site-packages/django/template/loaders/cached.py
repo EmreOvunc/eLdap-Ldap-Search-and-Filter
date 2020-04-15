@@ -14,6 +14,7 @@ from .base import Loader as BaseLoader
 class Loader(BaseLoader):
 
     def __init__(self, engine, loaders):
+        self.template_cache = {}
         self.get_template_cache = {}
         self.loaders = engine.get_template_loaders(loaders)
         super().__init__(engine)
@@ -65,7 +66,7 @@ class Loader(BaseLoader):
 
     def cache_key(self, template_name, skip=None):
         """
-        Generate a cache key for the template name and skip.
+        Generate a cache key for the template name, dirs, and skip.
 
         If skip is provided, only origins that match template_name are included
         in the cache key. This ensures each template is only parsed and cached
@@ -75,6 +76,7 @@ class Loader(BaseLoader):
             y -> a -> a
             z -> a -> a
         """
+        dirs_prefix = ''
         skip_prefix = ''
 
         if skip:
@@ -82,11 +84,12 @@ class Loader(BaseLoader):
             if matching:
                 skip_prefix = self.generate_hash(matching)
 
-        return '-'.join(s for s in (str(template_name), skip_prefix) if s)
+        return '-'.join(s for s in (str(template_name), skip_prefix, dirs_prefix) if s)
 
     def generate_hash(self, values):
         return hashlib.sha1('|'.join(values).encode()).hexdigest()
 
     def reset(self):
         "Empty the template cache."
+        self.template_cache.clear()
         self.get_template_cache.clear()

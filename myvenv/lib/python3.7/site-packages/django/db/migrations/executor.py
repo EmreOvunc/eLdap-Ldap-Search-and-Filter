@@ -25,9 +25,9 @@ class MigrationExecutor:
         """
         plan = []
         if clean_start:
-            applied = {}
+            applied = set()
         else:
-            applied = dict(self.loader.applied_migrations)
+            applied = set(self.loader.applied_migrations)
         for target in targets:
             # If the target is (app_label, None), that means unmigrate everything
             if target[1] is None:
@@ -36,7 +36,7 @@ class MigrationExecutor:
                         for migration in self.loader.graph.backwards_plan(root):
                             if migration in applied:
                                 plan.append((self.loader.graph.nodes[migration], True))
-                                applied.pop(migration)
+                                applied.remove(migration)
             # If the migration is already applied, do backwards mode,
             # otherwise do forwards mode.
             elif target in applied:
@@ -53,12 +53,12 @@ class MigrationExecutor:
                     for migration in self.loader.graph.backwards_plan(node):
                         if migration in applied:
                             plan.append((self.loader.graph.nodes[migration], True))
-                            applied.pop(migration)
+                            applied.remove(migration)
             else:
                 for migration in self.loader.graph.forwards_plan(target):
                     if migration not in applied:
                         plan.append((self.loader.graph.nodes[migration], False))
-                        applied[migration] = self.loader.graph.nodes[migration]
+                        applied.add(migration)
         return plan
 
     def _create_project_state(self, with_applied_migrations=False):

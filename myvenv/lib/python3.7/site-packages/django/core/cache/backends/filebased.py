@@ -113,7 +113,11 @@ class FileBasedCache(BaseCache):
             self._delete(fname)
 
     def _createdir(self):
-        os.makedirs(self._dir, 0o700, exist_ok=True)
+        if not os.path.exists(self._dir):
+            try:
+                os.makedirs(self._dir, 0o700)
+            except FileExistsError:
+                pass
 
     def _key_to_file(self, key, version=None):
         """
@@ -129,6 +133,8 @@ class FileBasedCache(BaseCache):
         """
         Remove all the cache files.
         """
+        if not os.path.exists(self._dir):
+            return
         for fname in self._list_cache_files():
             self._delete(fname)
 
@@ -151,7 +157,8 @@ class FileBasedCache(BaseCache):
         Get a list of paths to all the cache files. These are all the files
         in the root cache dir that end on the cache_suffix.
         """
-        return [
-            os.path.join(self._dir, fname)
-            for fname in glob.glob1(self._dir, '*%s' % self.cache_suffix)
-        ]
+        if not os.path.exists(self._dir):
+            return []
+        filelist = [os.path.join(self._dir, fname) for fname
+                    in glob.glob1(self._dir, '*%s' % self.cache_suffix)]
+        return filelist

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.sessions.backends.base import SessionBase
 from django.core import signing
 
@@ -15,7 +16,7 @@ class SessionStore(SessionBase):
                 self.session_key,
                 serializer=self.serializer,
                 # This doesn't handle non-default expiry dates, see #19201
-                max_age=self.get_session_cookie_age(),
+                max_age=settings.SESSION_COOKIE_AGE,
                 salt='django.contrib.sessions.backends.signed_cookies',
             )
         except Exception:

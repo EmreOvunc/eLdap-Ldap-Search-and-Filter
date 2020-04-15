@@ -1,4 +1,3 @@
-
 import os
 import re
 from importlib import import_module
@@ -250,7 +249,8 @@ class MigrationWriter:
                 migrations_package_name)
 
         final_dir = os.path.join(base_dir, *missing_dirs)
-        os.makedirs(final_dir, exist_ok=True)
+        if not os.path.isdir(final_dir):
+            os.makedirs(final_dir)
         for missing_dir in missing_dirs:
             base_dir = os.path.join(base_dir, missing_dir)
             with open(os.path.join(base_dir, "__init__.py"), "w"):

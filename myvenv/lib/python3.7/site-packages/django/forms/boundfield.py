@@ -63,10 +63,7 @@ class BoundField:
         # Prevent unnecessary reevaluation when accessing BoundField's attrs
         # from templates.
         if not isinstance(idx, (int, slice)):
-            raise TypeError(
-                'BoundField indices must be integers or slices, not %s.'
-                % type(idx).__name__
-            )
+            raise TypeError
         return self.subwidgets[idx]
 
     @property

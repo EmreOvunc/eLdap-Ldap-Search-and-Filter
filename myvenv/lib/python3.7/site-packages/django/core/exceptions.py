@@ -63,11 +63,6 @@ class RequestDataTooBig(SuspiciousOperation):
     pass
 
 
-class RequestAborted(Exception):
-    """The request was closed before it was completed, or timed out."""
-    pass
-
-
 class PermissionDenied(Exception):
     """The user did not have permission to do that"""
     pass
@@ -185,9 +180,4 @@ class ValidationError(Exception):
 
 class EmptyResultSet(Exception):
     """A database query predicate is impossible."""
-    pass
-
-
-class SynchronousOnlyOperation(Exception):
-    """The user tried to call a sync-only function from an async context."""
     pass

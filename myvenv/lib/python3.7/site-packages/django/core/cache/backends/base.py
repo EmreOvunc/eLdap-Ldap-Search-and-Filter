@@ -97,7 +97,8 @@ class BaseCache:
         if version is None:
             version = self.version
 
-        return self.key_func(key, self.key_prefix, version)
+        new_key = self.key_func(key, self.key_prefix, version)
+        return new_key
 
     def add(self, key, value, timeout=DEFAULT_TIMEOUT, version=None):
         """

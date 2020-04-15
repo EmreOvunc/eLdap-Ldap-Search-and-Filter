@@ -6,7 +6,7 @@ from django.db.backends.sqlite3.introspection import (
 
 class GeoFlexibleFieldLookupDict(FlexibleFieldLookupDict):
     """
-    Subclass that includes updates the `base_data_types_reverse` dict
+    Sublcass that includes updates the `base_data_types_reverse` dict
     for geometry field types.
     """
     base_data_types_reverse = {
@@ -24,17 +24,17 @@ class GeoFlexibleFieldLookupDict(FlexibleFieldLookupDict):
 class SpatiaLiteIntrospection(DatabaseIntrospection):
     data_types_reverse = GeoFlexibleFieldLookupDict()
 
-    def get_geometry_type(self, table_name, description):
+    def get_geometry_type(self, table_name, geo_col):
         with self.connection.cursor() as cursor:
             # Querying the `geometry_columns` table to get additional metadata.
             cursor.execute('SELECT coord_dimension, srid, geometry_type '
                            'FROM geometry_columns '
                            'WHERE f_table_name=%s AND f_geometry_column=%s',
-                           (table_name, description.name))
+                           (table_name, geo_col))
             row = cursor.fetchone()
             if not row:
                 raise Exception('Could not find a geometry column for "%s"."%s"' %
-                                (table_name, description.name))
+                                (table_name, geo_col))
 
             # OGRGeomType does not require GDAL and makes it easy to convert
             # from OGC geom type name to Django field.

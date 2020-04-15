@@ -18,7 +18,28 @@ class SafeData:
         return self
 
 
-class SafeString(str, SafeData):
+class SafeBytes(bytes, SafeData):
+    """
+    A bytes subclass that has been specifically marked as "safe" (requires no
+    further escaping) for HTML output purposes.
+
+    Kept in Django 2.0 for usage by apps supporting Python 2. Shouldn't be used
+    in Django anymore.
+    """
+    def __add__(self, rhs):
+        """
+        Concatenating a safe byte string with another safe byte string or safe
+        string is safe. Otherwise, the result is no longer safe.
+        """
+        t = super().__add__(rhs)
+        if isinstance(rhs, SafeText):
+            return SafeText(t)
+        elif isinstance(rhs, SafeBytes):
+            return SafeBytes(t)
+        return t
+
+
+class SafeText(str, SafeData):
     """
     A str subclass that has been specifically marked as "safe" for HTML output
     purposes.
@@ -30,14 +51,14 @@ class SafeString(str, SafeData):
         """
         t = super().__add__(rhs)
         if isinstance(rhs, SafeData):
-            return SafeString(t)
+            return SafeText(t)
         return t
 
     def __str__(self):
         return self
 
 
-SafeText = SafeString  # For backwards compatibility since Django 2.0.
+SafeString = SafeText
 
 
 def _safety_decorator(safety_marker, func):
@@ -60,4 +81,4 @@ def mark_safe(s):
         return s
     if callable(s):
         return _safety_decorator(mark_safe, s)
-    return SafeString(s)
+    return SafeText(s)

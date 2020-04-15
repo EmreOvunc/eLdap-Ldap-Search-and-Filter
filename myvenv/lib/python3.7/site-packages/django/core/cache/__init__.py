@@ -12,7 +12,7 @@ object.
 
 See docs/topics/cache.txt for information on the public API.
 """
-from asgiref.local import Local
+from threading import local
 
 from django.conf import settings
 from django.core import signals
@@ -61,7 +61,7 @@ class CacheHandler:
     Ensure only one instance of each alias exists per thread.
     """
     def __init__(self):
-        self._caches = Local()
+        self._caches = local()
 
     def __getitem__(self, alias):
         try:

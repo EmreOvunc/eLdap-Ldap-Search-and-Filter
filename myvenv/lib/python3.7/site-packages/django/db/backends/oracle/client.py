@@ -14,4 +14,4 @@ class DatabaseClient(BaseDatabaseClient):
         wrapper_path = shutil.which(self.wrapper_name)
         if wrapper_path:
             args = [wrapper_path, *args]
-        subprocess.run(args, check=True)
+        subprocess.check_call(args)
