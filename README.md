@@ -1,8 +1,10 @@
 # eLdap-Ldap-Search-and-Filter
 eLdap is a tool that helps users searching and filtering queries in Ldap environment.
 
-+ Ldap injection will be added.
-+ Ldap vulnerabilities will be added.
+- [x] Ldap search & filter options are added.
+- [x] Ldap injection payloads are added.
+- [ ] Ldap injection will be added.
+- [ ] Ldap vulnerabilities will be added.
 
 ## Installation
 ```
@@ -14,6 +16,6 @@ python3 manage.py runserver
 ```
 
 ## Usage 
-![](https://emreovunc.com/projects/eldap-ldap-search-and-filter-01.png)
+![](https://emreovunc.com/projects/eldap_tool.png)
 
 ![](https://emreovunc.com/projects/eldap-ldap-search-and-filter-02.png)

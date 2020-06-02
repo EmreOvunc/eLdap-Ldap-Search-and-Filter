@@ -1,6 +1,6 @@
 <!DOCTYPE html>
     <head>
-        <title>eLdap | Ldap Filter & Search </title>
+        <title>eLdap | Ldap Filter & Search | Injection</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
@@ -17,10 +17,15 @@
 </style>
     <body>
         <div class="page-header">
-            <h1><a href="/"><u>eLdap</u> | Ldap Filter & Search </a></h1>
-        </div>
+            <h1><a href="/"><u>eLdap</u> | Ldap Filter & Search | Injection</a></h1>
+            <h4>
+                <a href="/search">Search & Filter</a>
+                <a style="padding-left:4em" href="/payloads">Payloads</a>
+            </h4>
         <div class="content container">
+
             <div class="row">
+
                 <div class="col-md-8">
                     {% block content %}
                     {% endblock %}

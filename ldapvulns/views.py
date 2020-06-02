@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 from .forms import SimpleForm
 import ldap
 
@@ -28,16 +29,20 @@ def ldapfunc(ip, port, username, password, base, filter):
         return e
 
 
-def vulns(request):
+def search(request):
     if request.method == 'POST':
         form = SimpleForm(request.POST)
         result = ldapfunc(form.data['ldap_ip'], form.data['ldap_port'], form.data['username'], form.data['password'], form.data['search_base'], form.data['search_filter'])
 
         if form.is_valid():
-            return render(request, 'eldap/vulns.html', {'form': form, 'result': result})
+            return render(request, 'eldap/search.html', {'form': form, 'result': result})
 
     else:
         form = SimpleForm()
         result = ""
 
-    return render(request, 'eldap/vulns.html', {'form': form, 'result': result})
+    return render(request, 'eldap/search.html', {'form': form, 'result': result})
+
+
+def payloads(request):
+    return render(request, 'eldap/payloads.html')
