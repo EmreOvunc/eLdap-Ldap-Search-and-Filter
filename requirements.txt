@@ -1,1 +1,7 @@
-Django~=2.2.4
+Django==2.2.12
+pyasn1==0.4.8
+pyasn1-modules==0.2.8
+pyldap==3.0.0.post1
+python-ldap==3.2.0
+pytz==2019.3
+sqlparse==0.3.1
