@@ -1,4 +1,4 @@
-Django==2.2.12
+Django==2.2.13
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pyldap==3.0.0.post1
