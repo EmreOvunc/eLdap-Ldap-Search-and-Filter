@@ -18,4 +18,4 @@ python3 manage.py runserver
 ## Usage 
 ![](https://emreovunc.com/projects/eldap_tool.png)
 
-![](https://emreovunc.com/projects/eldap-ldap-search-and-filter-02.png)
+![](https://emreovunc.com/projects/eldap-ldap-search-and-filter-01.png)

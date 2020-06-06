@@ -1,5 +1,5 @@
+from django.http import HttpResponse
 from django.shortcuts import render
-from django.shortcuts import render_to_response
 from .forms import SimpleForm
 import ldap
 
@@ -18,12 +18,20 @@ def ldapfunc(ip, port, username, password, base, filter):
             connection.simple_bind_s(name, password)
         results = connection.search_s(
             base,
-            ldap.SCOPE_ONELEVEL,
+            ldap.SCOPE_SUBTREE,
             filter,
             attrs,
         )
+        result = ""
+        resnm  = 0
+        for res in results:
+            resnm  += 1
+            result += "Result[" + str(resnm) + "]\n"
+            result += str(res[0])
+            result += "\n"
+            result += str(res[1]).replace("b'", "'")
         connection.unbind()
-        return results
+        return result
 
     except Exception as e:
         return e
