@@ -11,7 +11,7 @@ eLdap is a tool that helps users searching and filtering queries in Ldap environ
 git clone https://github.com/EmreOvunc/eLdap-Ldap-Search-and-Filter.git
 cd eLdap-Ldap-Search-and-Filter
 sudo pip3 install virtualenv
-python3 -m venv myvenv/bin/activate
+python3 -m venv myvenv
 source myvenv/bin/activate
 pip3 install -r requirements.txt
 python3 manage.py runserver
